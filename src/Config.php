@@ -1,6 +1,6 @@
 <?php
 
-use Fangorn\App;
+namespace Fangorn;
 
 class Config {
     /** @var string */

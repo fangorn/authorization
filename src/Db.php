@@ -2,11 +2,9 @@
 
 namespace Fangorn;
 
-use Config;
 use PDO;
 use PDOException;
 use PDOStatement;
-
 
 class Db {
     /** @var PDO */
@@ -30,12 +28,12 @@ class Db {
     public function query(string $query, array $params = []): PDOStatement {
         $stmt = $this->connection->prepare($query);
 
-        foreach ($params as &$key => $value) {
-            $key = ":{$key}";
+        $preparedParams = [];
+        foreach ($params as $key => $value) {
+            $preparedParams[":{$key}"] = $value;
         }
-        unset($key);
 
-        $result = $stmt->execute($params);
+        $result = $stmt->execute($preparedParams);
         if (!$result) {
             throw new PDOException("Result is false");
         }

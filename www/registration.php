@@ -2,20 +2,22 @@
 
 use Fangorn\Users\UsersTable;
 
-include dirname(__DIR__) . '/view/registration.phtml';
+include dirname(__DIR__) . '/common.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+include dirname(__DIR__) . '/view/registration.phtml';
 
 if (empty($_POST)) {
     die();
 }
 
-try {
-    $user = UsersTable::createUser($_POST['name'], $_POST['email'], $_POST['password']);
+$name  = htmlspecialchars(trim($_POST['name']));
+$email = htmlspecialchars(trim($_POST['email']));
+$password = trim($_POST['password']);
 
-    var_dump($user);
+try {
+    if ($name !== '' && $email !== '' && $password !== '') {
+        UsersTable::createUser($name, $email, $password);
+    }
 } catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();

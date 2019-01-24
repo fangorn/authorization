@@ -1,0 +1,23 @@
+<? if ($error) { ?>
+    <div class="error">
+        <?= htmlspecialchars($error) ?>
+    </div>
+<? } ?>
+<form method="POST" action="/auth.php">
+    <div>
+        <label for="email">E-mail</label>
+        <input id="email" type="text" name="email" />
+    </div>
+    <div>
+        <label for="password">Пароль</label>
+        <input id="password" type="password" name="password" />
+    </div>
+    <div>
+        <input id="submit" type="submit" value="Войти" />
+    </div>
+</form>
+<style>
+    .error {
+        color: red;
+    }
+</style>

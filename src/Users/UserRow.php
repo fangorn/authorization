@@ -3,6 +3,7 @@
 namespace Fangorn\Users;
 
 use Fangorn\App;
+use PDO;
 
 class UserRow {
     /** @var int|null */
@@ -56,5 +57,35 @@ class UserRow {
                 ]
             );
         }
+    }
+
+    public function findByEmail(string $email): void {
+        $db = App::getDb();
+
+        $result = $db->query(
+            "
+                SELECT user_id, name, email, password_hash
+                FROM users
+                WHERE email = :email
+            ",
+            [
+                'email' => $email,
+            ]
+        );
+
+        $arr = $result->fetch(PDO::FETCH_ASSOC);
+
+        if ($arr) {
+            $this->user_id       = $arr['user_id'];
+            $this->name          = $arr['name'];
+            $this->email         = $arr['email'];
+            $this->password_hash = $arr['password_hash'];
+            return;
+        }
+        $this->user_id       = null;
+        $this->name          = null;
+        $this->email         = null;
+        $this->password_hash = null;
+        return;
     }
 }

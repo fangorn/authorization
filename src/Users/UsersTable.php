@@ -23,4 +23,16 @@ class UsersTable {
 
         return $user;
     }
+
+    public static function login(string $email, string $password): ?UserRow {
+        // TODO
+        $user = new UserRow();
+        $user->findByEmail($email);
+
+        if (password_verify($password, $user->password_hash)) {
+            return $user;
+        }
+
+        return null;
+    }
 }
