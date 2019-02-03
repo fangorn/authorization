@@ -1,12 +1,23 @@
 <?php
 
+use Fangorn\Filter;
+use Fangorn\Users\UsersTable;
+
 require_once dirname(__DIR__) . '/common.php';
 
-session_start();
+[$id, $error] = Filter::user_id($_SESSION['user_id'] ?? null);
 
-$name = $_SESSION['name'];
-$id   = $_SESSION['user_id'];
+if (!$error) {
+    // Проверить, что пользователь существует
+    $user = UsersTable::getUserById($id);
+    if (!$user) {
+        $error = 'При авторизации произошла ошибка. Попробуйте еще раз';
+    }
+}
 
-include dirname(__DIR__) . '/view/hello.phtml';
-
-
+// В случае ошибок редиректим на страницу с авторизацией
+if ($error) {
+    header("Location: auth.php");
+} else {
+    include dirname(__DIR__) . '/view/hello.phtml';
+}

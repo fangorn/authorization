@@ -1,16 +1,26 @@
-<? if ($error) { ?>
+<? if (isset($errors['common'])) { ?>
     <div class="error">
-        <?= htmlspecialchars($error) ?>
+        <?= htmlspecialchars($errors['common']) ?>
     </div>
 <? } ?>
 <form method="POST" action="/auth.php">
     <div>
         <label for="email">E-mail</label>
         <input id="email" type="text" name="email" />
+        <? if (isset($errors['email'])) { ?>
+            <div class="error">
+                <?= htmlspecialchars($errors['email']) ?>
+            </div>
+        <? } ?>
     </div>
     <div>
         <label for="password">Пароль</label>
         <input id="password" type="password" name="password" />
+        <? if (isset($errors['password'])) { ?>
+            <div class="error">
+                <?= htmlspecialchars($errors['password']) ?>
+            </div>
+        <? } ?>
     </div>
     <div>
         <input id="submit" type="submit" value="Войти" />

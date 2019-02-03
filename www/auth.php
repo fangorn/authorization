@@ -1,30 +1,41 @@
 <?php
 
+use Fangorn\Filter;
 use Fangorn\Users\UsersTable;
 
 include dirname(__DIR__) . '/common.php';
 
-$error = null;
+$errors = [];
 
 if (!empty($_POST)) {
-    // TODO: Фильтруем данные формы
-    $email = htmlspecialchars(trim($_POST['email']));
-    $password = trim($_POST['password']);
+    // Фильтруем данные формы
+    [$email, $error] = Filter::email($_POST['email'] ?? null);
+    if ($error) {
+        $errors['email'] = $error;
+    }
 
-    $user = UsersTable::login($email, $password);
-    if ($user) {
-        // Сохранить данные в сессию (id)
-        session_start();
+    [$password, $error] = Filter::password($_POST['password'] ?? null);
+    if ($error) {
+        $errors['password'] = $error;
+    }
 
-        $_SESSION['user_id'] = $user->user_id;
-        $_SESSION['name']    = $user->name;
+    if (empty($errors)) {
+        if (UsersTable::getUserByEmail($email) === null) {
+            $errors['common'] = 'Пользователь с заданным email в системе не зарегистрирован';
+        } else {
+            $user = UsersTable::login($email, $password);
+            if ($user) {
+                // Сохранить данные в сессию
+                $_SESSION['user_id'] = $user->user_id;
 
-        // Редирект на hello.php
-        header("Location: hello.php");
+                // Редирект на hello.php
+                header("Location: hello.php");
 
-        exit();
-    } else {
-        $error = 'Пользователь не найден';
+                exit();
+            } else {
+                $errors['common'] = 'Неверно введен пароль';
+            }
+        }
     }
 }
 

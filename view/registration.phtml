@@ -1,17 +1,43 @@
+<? if (isset($errors['common'])) { ?>
+    <div class="error">
+        <?= htmlspecialchars($errors['common']) ?>
+    </div>
+<? } ?>
 <form method="POST" action="/registration.php">
     <div>
         <label for="name">Имя</label>
         <input id="name" type="text" name="name" />
+        <? if (isset($errors['name'])) { ?>
+            <div class="error">
+                <?= htmlspecialchars($errors['name']) ?>
+            </div>
+        <? } ?>
     </div>
     <div>
         <label for="email">E-mail</label>
         <input id="email" type="text" name="email" />
+        <? if (isset($errors['email'])) { ?>
+            <div class="error">
+                <?= htmlspecialchars($errors['email']) ?>
+            </div>
+        <? } ?>
     </div>
     <div>
         <label for="password">Пароль</label>
         <input id="password" type="password" name="password" />
+        <? if (isset($errors['password'])) { ?>
+            <div class="error">
+                <?= htmlspecialchars($errors['password']) ?>
+            </div>
+        <? } ?>
     </div>
     <div>
         <input id="submit" type="submit" value="Зарегистрироваться" />
     </div>
 </form>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+
