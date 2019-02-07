@@ -5,7 +5,7 @@ use Fangorn\Users\UsersTable;
 
 require_once dirname(__DIR__) . '/common.php';
 
-[$id, $error] = Filter::user_id($_SESSION['user_id'] ?? null);
+[$id, $error] = Filter::userId($_SESSION['user_id'] ?? null);
 
 if (!$error) {
     // Проверить, что пользователь существует

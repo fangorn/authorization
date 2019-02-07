@@ -80,18 +80,18 @@ class Filter {
     }
 
     /**
-     * @param mixed $user_id
+     * @param mixed $userId
      * @return array (filtered $user_id, error)
      */
-    public static function user_id($user_id) {
+    public static function userId($userId) {
         // Проверить, что в сессии есть ключ user_id
-        if ($user_id === null) {
+        if ($userId === null) {
             return [null, 'Для просмотра этой страницы необходимо авторизоваться'];
         }
         // Проверить, что в сессии лежит число
-        if (preg_match('/^\d*$/', $user_id) !== 1) {
+        if (is_int($userId)) {
             return [null, 'При авторизации произошла ошибка. Попробуйте еще раз'];
         }
-        return [$user_id, null];
+        return [$userId, null];
     }
 }
