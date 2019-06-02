@@ -4,10 +4,10 @@
       "Fangorn\\": [
         "src/"
       ]
-    },
-    "files": ["src/Config.php"]
+    }
   },
   "require": {
+    "ext-pdo": "*"
   },
   "require-dev": {
   }

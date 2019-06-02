@@ -1,22 +1,42 @@
 <?php
 
+use Fangorn\Filter;
 use Fangorn\Users\UsersTable;
 
+include dirname(__DIR__) . '/common.php';
+
+$errors = [];
+
+if (!empty($_POST)) {
+
+    [$name, $error] = Filter::name($_POST['name'] ?? null);
+    if ($error) {
+        $errors['name'] = $error;
+    }
+
+    [$email, $error] = Filter::email($_POST['email'] ?? null);
+    if ($error) {
+        $errors['email'] = $error;
+    }
+
+    [$password, $error] = Filter::password($_POST['password'] ?? null);
+    if ($error) {
+        $errors['password'] = $error;
+    }
+
+    if (empty($errors)) {
+        try {
+            if (!UsersTable::getUserByEmail($email)) {
+                UsersTable::createUser($name, $email, $password);
+                header("Location: auth.php");
+            } else {
+                $errors['common'] = 'Пользователь с таким email уже зарегистрирован';
+            }
+        } catch (PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+}
+
 include dirname(__DIR__) . '/view/registration.phtml';
-
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
-if (empty($_POST)) {
-    die();
-}
-
-try {
-    $user = UsersTable::createUser($_POST['name'], $_POST['email'], $_POST['password']);
-
-    var_dump($user);
-} catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
-    die();
-}

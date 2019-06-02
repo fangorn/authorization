@@ -1,0 +1,14 @@
+<?php
+
+use Fangorn\Users\UserRow;
+
+/** @var UserRow $user */
+
+?>
+<div>
+    <h1>Hello, <?= htmlspecialchars($user->name) ?></h1>
+</div>
+
+<form action="logout.php" method="post">
+    <input type="submit" name="logout" value="Выйти" />
+</form>

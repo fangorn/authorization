@@ -3,16 +3,7 @@
         <?= htmlspecialchars($errors['common']) ?>
     </div>
 <? } ?>
-<form method="POST" action="/registration.php">
-    <div>
-        <label for="name">Имя</label>
-        <input id="name" type="text" name="name" />
-        <? if (isset($errors['name'])) { ?>
-            <div class="error">
-                <?= htmlspecialchars($errors['name']) ?>
-            </div>
-        <? } ?>
-    </div>
+<form method="POST" action="/auth.php">
     <div>
         <label for="email">E-mail</label>
         <input id="email" type="text" name="email" />
@@ -32,7 +23,7 @@
         <? } ?>
     </div>
     <div>
-        <input id="submit" type="submit" value="Зарегистрироваться" />
+        <input id="submit" type="submit" value="Войти" />
     </div>
 </form>
 <style>
@@ -40,4 +31,3 @@
         color: red;
     }
 </style>
-

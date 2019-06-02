@@ -2,8 +2,6 @@
 
 namespace Fangorn;
 
-use Config;
-
 class App {
     public static function getRoot(): string {
         return dirname(__DIR__);

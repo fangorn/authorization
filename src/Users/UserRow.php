@@ -3,6 +3,7 @@
 namespace Fangorn\Users;
 
 use Fangorn\App;
+use PDO;
 
 class UserRow {
     /** @var int|null */
